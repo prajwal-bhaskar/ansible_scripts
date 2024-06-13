@@ -7,8 +7,35 @@
   - name: Update yum
     yum:
       update_cache: yes
-    
+    when: ansible_distribution =="Amazon"
+
+  - name: Update apt
+    apt:
+      update_cache: yes
+    when: ansible_distribution =="Ubuntu"
+
+
   - name: Install httpd
     yum:
       name: httpd
       state: latest
+    when: ansible_distribution =="Amazon"
+
+
+  - name: Install apache
+    apt:
+      name: apache2
+      state: latest
+    when: ansible_distribution =="Ubuntu"
+
+  - name: Install php support for apache
+    apt:
+      name: libapache2-mod-php
+      state: latest
+    when: ansible_distribution =="Ubuntu"
+
+  - name: Install php for apache in Amazon
+    yum:
+      name: php
+      state: latest
+    when: ansible_distribution =="Amazon"    
