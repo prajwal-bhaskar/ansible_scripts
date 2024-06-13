@@ -4,6 +4,10 @@
   hosts: all
   become: true
   tasks:
+  - name: Update yum
+    yum:
+      update_cache: yes
+    
   - name: Install httpd
     yum:
       name: httpd
