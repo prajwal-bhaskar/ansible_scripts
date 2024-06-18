@@ -1,14 +1,13 @@
 ---
 
-- name: Playbook to install httpd
+- name: Playbook to uninstall packages
   hosts: all
   become: true
   tasks:
-  - name: Update yum
-    yum:
+  - name: Update cache and remove packages
+    package:
+      name: 
+      - "{{ apache_package }}"
+      - "{{ php_package }}"
       update_cache: yes
-    
-  - name: Remove httpd
-    yum:
-      name: httpd
       state: absent
