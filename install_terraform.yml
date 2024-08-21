@@ -1,0 +1,13 @@
+---
+
+- name: Install Terraform in hosts
+  hosts: host1
+  tasks:
+    - name: Install unzip
+      package:
+        name: unzip
+
+
+    - name: Install terraform
+      unarchive:
+        src: 
