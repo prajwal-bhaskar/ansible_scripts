@@ -1,3 +1,5 @@
-[host1]
+[aws_linux]
 172.31.24.29 apache_package=httpd php_package=php
+
+[ubuntu]
 172.31.20.78 ansible_ssh_user=ubuntu apache_package=apache2 php_package=libapache2-mod-php

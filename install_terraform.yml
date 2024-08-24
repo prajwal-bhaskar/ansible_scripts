@@ -2,6 +2,7 @@
 
 - name: Install Terraform in hosts
   hosts: host1
+  become: true
   tasks:
     - name: Install unzip
       package:
@@ -10,4 +11,8 @@
 
     - name: Install terraform
       unarchive:
-        src: 
+        src: https://releases.hashicorp.com/terraform/1.9.5/terraform_1.9.5_linux_amd64.zip
+        dest: /usr/local/bin
+        remote_src: yes
+        owner: root
+        group: root 
