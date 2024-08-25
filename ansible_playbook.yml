@@ -3,6 +3,21 @@
 - hosts: all
   become: true
   tasks:
+  - name: Create user in system using ansible
+    user:
+      name: Prajwal
+      group: root
+
+  - name: Adding Sudoer file to user
+    copy:
+      src: sudoer_Prajwal
+      dest: /etc/sudoers.d/Prajwal
+      owner: root
+      group: root
+
+- hosts: all
+  become: true
+  tasks:
   - name: Install apache and php packages
     tags: always
     package:
