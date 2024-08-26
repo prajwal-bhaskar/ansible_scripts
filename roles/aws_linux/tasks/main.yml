@@ -2,8 +2,8 @@
   tags: always
   yum:
     name: 
-      - httpd
-      - php
+      - "{{ apache_package_name}}"
+      - "{{ php_package_name}}"
     state: latest
     update_cache: yes
 
@@ -11,18 +11,12 @@
   lineinfile:
       path: /etc/httpd/conf/httpd.conf
       regexp: '^ServerAdmin'
-      line: ServerAdmin praj@wlu.ca
-  register: httpd
-
-- name: Restart service
-  service:
-    name: httpd
-    state: restarted
-  when: httpd.changed
+      line: ServerAdmin praj@wlu.com
+  notify: apache_handler
 
 - name: Start httpd
   service: 
-    name: httpd
+    name: "{{apache_service_name}}"
     state: started
     enabled: yes
 

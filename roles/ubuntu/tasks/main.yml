@@ -2,15 +2,15 @@
   tags: always
   apt:
     name: 
-      - apache2
-      - libapache2-mod-php
+      - "{{ apache_package_name}}"
+      - "{{ php_package_name}}"
     state: latest
     update_cache: yes
 
 
 - name: Start apache2
   service: 
-    name: apache2
+    name: "{{apache_service_name}}"
     state: started
     enabled: yes
 
