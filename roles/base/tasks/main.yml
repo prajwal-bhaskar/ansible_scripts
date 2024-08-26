@@ -1,0 +1,26 @@
+
+- name: update repository index (Amazon)
+  tags: always
+  yum:
+    update_cache: yes
+  changed_when: false
+  when: ansible_distribution == "Amazon"
+
+- name: update repository index (Ubuntu)
+  tags: always
+  apt:
+    update_cache: yes
+  changed_when: false
+  when: ansible_distribution == "Ubuntu"
+
+- name: Create user in system using ansible
+  user:
+    name: Prajwal
+    group: root
+
+- name: Adding Sudoer file to user
+  copy:
+    src: sudoer_Prajwal
+    dest: /etc/sudoers.d/Prajwal
+    owner: root
+    group: root

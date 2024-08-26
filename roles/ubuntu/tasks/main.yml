@@ -1,0 +1,23 @@
+- name: Install apache and php packages
+  tags: always
+  apt:
+    name: 
+      - apache2
+      - libapache2-mod-php
+    state: latest
+    update_cache: yes
+
+
+- name: Start apache2
+  service: 
+    name: apache2
+    state: started
+    enabled: yes
+
+- name: Copy files from controller to host
+  copy:
+    src: test.html
+    dest: /var/www/html/index.html
+    owner: root
+    group: root
+    mode: 0644

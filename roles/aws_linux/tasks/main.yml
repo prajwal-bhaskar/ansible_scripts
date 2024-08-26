@@ -1,0 +1,35 @@
+- name: Install apache and php packages
+  tags: always
+  yum:
+    name: 
+      - httpd
+      - php
+    state: latest
+    update_cache: yes
+
+- name: Change config file
+  lineinfile:
+      path: /etc/httpd/conf/httpd.conf
+      regexp: '^ServerAdmin'
+      line: ServerAdmin praj@wlu.ca
+  register: httpd
+
+- name: Restart service
+  service:
+    name: httpd
+    state: restarted
+  when: httpd.changed
+
+- name: Start httpd
+  service: 
+    name: httpd
+    state: started
+    enabled: yes
+
+- name: Copy files from controller to host
+  copy:
+    src: test.html
+    dest: /var/www/html/index.html
+    owner: root
+    group: root
+    mode: 0644

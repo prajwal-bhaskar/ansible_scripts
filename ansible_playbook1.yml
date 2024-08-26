@@ -1,0 +1,78 @@
+---
+
+
+
+- hosts: all
+  become: true
+  pre_tasks:
+   - name: update repository index (Amazon)
+     tags: always
+     yum:
+       update_cache: yes
+     changed_when: false
+     when: ansible_distribution == "Amazon"
+
+   - name: update repository index (Ubuntu)
+     tags: always
+     apt:
+       update_cache: yes
+     changed_when: false
+     when: ansible_distribution == "Ubuntu"
+
+- hosts: all
+  become: true
+  tasks:
+  - name: Create user in system using ansible
+    user:
+      name: Prajwal
+      group: root
+
+  - name: Adding Sudoer file to user
+    copy:
+      src: sudoer_Prajwal
+      dest: /etc/sudoers.d/Prajwal
+      owner: root
+      group: root
+
+- hosts: all
+  become: true
+  tasks:
+  - name: Install apache and php packages
+    tags: always
+    package:
+      name: 
+      - "{{ apache_package }}"
+      - "{{ php_package }}"  
+      state: latest
+      update_cache: yes
+
+  - name: Copy files from controller to host
+    copy:
+      src: test.html
+      dest: /var/www/html/index.html
+      owner: root
+      group: root
+      mode: 0644
+
+- hosts: aws_linux
+  become: true
+  tasks:
+  - name: Change config file
+    lineinfile:
+      path: /etc/httpd/conf/httpd.conf
+      regexp: '^ServerAdmin'
+      line: ServerAdmin praj@wlu.ca
+    register: httpd
+
+  - name: Restart service
+    service:
+      name: httpd
+      state: restarted
+    when: httpd.changed
+
+  - name: Start httpd
+    service: 
+      name: httpd
+      state: started
+      enabled: yes
+  
